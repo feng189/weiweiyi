@@ -1,0 +1,6 @@
+ cd weiweiyi   进目录
+ git add .    
+git commit -m "增加新文件"
+git push
+
+我们在使用教程中给出的命令前，需要先执行如下命令： ~~~ cd d:/xampp/htdocs/thinkphp5guide ~~~
