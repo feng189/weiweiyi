@@ -2,5 +2,129 @@
  git add .    
 git commit -m "增加新文件"
 git push
-
 我们在使用教程中给出的命令前，需要先执行如下命令： ~~~ cd d:/xampp/htdocs/thinkphp5guide ~~~
+
+var_dump() 函数可以查看对象中的属性，但却不显示对象中存在的方法。
+var_dump($teacher->getData('name'));
+        echo $teacher->getData('name');
+        return $teacher->getData('name');  
+
+ // 获取教师表中的所有数据
+        $teachers = Db::name('teacher')->select();
+        // 查看获取的数据
+        var_dump($teachers);
+
+或者
+
+        $Teacher = new Teacher;
+        $teachers = $Teacher->select();
+        var_dump($teachers);
+
+在V层中查看变量
+我们在V层中的文件index.html中，输入以下代码：
+V层的文件，位于同模块下的view文件夹下，与控制器的名字和方法的名字相对应
+<!--在V层中使用php的函数需要类似于这样使用-->
+{:var_dump($teachers)}
+
+
+ // 向teacher表中插入数据并判断是否插入成功
+        $Teacher->data($teacher)->save();
+        return $teacher['name'] . '成功增加至数据表中';
+
+
+ // 实例化Teacher空对象
+        $Teacher = new Teacher();
+//调用数据库数据
+ $Teacher = new Teacher; 
+ $teachers = $Teacher->select();
+
+{volist name="teachers" id="teacher" key="key"}
+        <tr>
+            <td>{$key}</td>
+            <td>{$teacher->getData('name')}</td>
+            <td>{eq name='teacher->getData("sex")' value='0'}男{else /}女{/eq}</td>
+            <td>{$teacher->getData('email')}</td>
+            <td>{$teacher->getData('username')}</td>
+        </tr>
+        {/volist}    //循环数组
+
+ // 接收传入数据
+        $postData = $this->request->post();  
+或者       $postData = Request::instance()->post();   最好用这种
+
+view下需写上<form action="insert" method="post">
+
+
+在thinkphp中，我们将创建时间字段规定为create_time，更新时间规定为update_time，
+虽然我们也可以自定义，但除非该字段与其它我们想定义的字段产生冲突，否则我们不会那样做。
+使用:$Teacher->create_time = $postData['create_time'];
+
+
+
+把PHP时间戳转成普通带时分秒的日期形式
+
+$date=date('Y-m-d H:i:s',"1285724523");
+
+echo $date;
+
+或者echo date('Y/m/d H:i:s',$Teacher->create_time);
+
+
+
+
+第一种删除方法：
+
+    public function delete()
+    {
+        // 获取要删除的对象
+        $Teacher = Teacher::get(16);
+
+        // 删除对象
+        $Teacher->delete();
+        
+        return '删除成功';
+    }
+
+ // 获取要删除的对象
+        $Teacher = Teacher::get(14);
+
+        // 要删除的对象存在
+        if (!is_null($Teacher)) {
+            // 删除对象
+            if ($Teacher->delete()) {
+                return '删除成功';
+            } else {
+                return '删除失败';
+            }
+
+        // 要删除的对象不存在
+        } else {
+            return '删除失败';
+        }
+这种方法，即使你想删除的记录不存在，也不会抛出异常。它只会告诉你，删除的记录条数为0。
+在实际的使用中，如果我们需要的是批量删除，使用第二种方法，
+即：destroy()，如果我们仅仅是删除特定的记录，我们使用第一种方法，即：delete()
+
+完善代码如下：
+
+    public function delete()
+    {
+        // 直接删除相关关键字记录
+        if ($count = Teacher::destroy(16))
+        {
+            return '成功删除' . $count . '条数据';
+        }
+       
+        return '删除失败';
+    }
+
+
+
+ // 获取pathinfo传入的ID值.
+        $id = Request::instance()->param('id/d'); // “/d”表示将数值转化为“整形”
+
+
+
+
+
+input('get.name')作用同Request::instance()->get('name')
